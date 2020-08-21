@@ -15,4 +15,4 @@ After consulting existing models for similar purposes I settled on an architectu
 With this architecture after 30 epochs we are achieving around 8% prediction accuracy.
 
 ## Creating a CNN by transfer learning
-<img src="cnn_xception.png" 2idth="300" />
+<img src="cnn_xception.png" width="300" />
