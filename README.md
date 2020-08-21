@@ -11,6 +11,8 @@ We are training Convolutional Neural Networks to identify dog-breeds based on an
 As an introduction, we are trying to identify human face in an image. 
 For this task we are using OpenCV's implementation of Haar feature-based cascade classifiers to detect human faces in images.
 
+![](haar.png)
+
 You can find more about Haar-cascade detection here: 
 [https://docs.opencv.org/trunk/db/d28/tutorial_cascade_classifier.html](https://docs.opencv.org/trunk/db/d28/tutorial_cascade_classifier.html)
 
@@ -39,4 +41,19 @@ CNN architecture uses only one global averaging layer, dropout layer to reduce o
 
 Transfer learning proved by far superior with training times order of magnitude lower and accuracy reaching 85% with the Xception model.
 
-Examples:
+## Examples
+![](labrador.png)
+
+![](human.png)
+
+![](church.png)
+
+## Conclusion
+The algorithm works very well and Xception based CNN was used for predictions.
+
+Points of improvement in the future:
+
+* getting more training samples would surely increase accuracy dramatically
+* testing different CNN architectures, taking inspiration from scientfic papers
+* tuning hyperparameters on cross-validated datasets and choosing the best performing one
+* there might be merit in combining predictors based on each of the pre-trained models into an ensemble
