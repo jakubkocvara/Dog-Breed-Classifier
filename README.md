@@ -48,6 +48,15 @@ Transfer learning proved by far superior with training times order of magnitude 
 
 ![](church.png)
 
+## Running the demo application
+Included is the Python web app which enables a user to predict the breed of a dog picture based on the transfer learning Xception model.
+
+### Required Python libraries
+* Flask
+* Keras
+* Tensorflow
+
+
 ## Conclusion
 The algorithm works very well and Xception based CNN was used for predictions.
 
