@@ -1,0 +1,134 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Classify dog breeds!</title>
+  <meta name="description" content="Dog breed classifier using transfer learning">
+  <meta name="author" content="Jakub Kocvara">
+
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+  <link href="https://transloadit.edgly.net/releases/uppy/v1.20.2/uppy.min.css" rel="stylesheet">
+  <style type="text/css">
+  	h1 {
+  		font-family: 'Rubik Mono One', sans-serif;
+  		font-size: 36px;
+  	}
+
+  	.center {
+  		text-align: center;
+  	}
+
+  	html, body {
+  		width: 100%;
+  		height: 100%;
+  	}
+
+  	.container {
+  		width: 800px;
+  		margin: 0 auto;
+  	}
+
+  	#dog {
+  		background-image: url("{{ url_for('static', filename='dog.png') }}");
+  		background-size: cover;
+  		display: inline-block;
+  		height: 80px;
+  		width: 80px;
+  		vertical-align: middle;
+  	}
+
+  	#preview {
+  		width: 100%;
+  		padding-top: 15px;
+  	}
+
+  	.preview-img {
+  		margin: 0 auto;
+  		display: block;
+  		max-width: 500px;
+  		max-height: 500px;
+  		border-radius: 10px;
+  	}
+
+  	#result {
+  		font-family: 'Rubik Mono One', sans-serif;  
+  		padding-top: 5px;
+  		font-size: 28px;	
+  		text-align: center;	
+  	}
+
+  	.loading {
+  		background-image: url("{{ url_for('static', filename='loading.gif') }}");
+  		height: 70px;
+  		width: 100px;
+  		margin: 0 auto;
+  		background-size: cover;
+  		display: none;
+  	}
+  	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1 class="center">Dog breed classifier <span id="dog"></span></h1>
+		<form id="upload-form"></form>
+		<div id="upload-area"></div>
+		<div id="preview"></div>
+		<div class="loading"></div>
+		<div id="result"></div>
+	</div>
+	<script src="https://transloadit.edgly.net/releases/uppy/v1.20.2/uppy.min.js"></script>
+	<script>
+	var uppy = Uppy.Core({
+		autoProceed: true,
+		allowMultipleUploads: true
+	});
+	uppy.use(Uppy.DragDrop, {
+	    target: '#upload-area',
+	    height: '130px'
+	});
+
+	// uppy.use(Uppy.ProgressBar, { 
+	//     target: '.for-ProgressBar',
+	//     hideAfterFinish: true 
+	// });
+
+	uppy.use(Uppy.Form, {
+	    target: '#upload-form'
+	});
+
+	uppy.use(Uppy.XHRUpload, { 
+	    endpoint: "{{ url_for('upload') }}",
+	    fieldName: 'file'
+	});
+
+	uppy.use(Uppy.ThumbnailGenerator, {
+	  thumbnailWidth: 500,
+	  // thumbnailHeight: 200 // optional, use either width or height,
+	  waitForThumbnailsBeforeUpload: false
+	})
+
+	uppy.on('thumbnail:generated', function(file, preview) {
+	  const img = document.createElement('img')
+	  img.src = preview
+	  img.classList.add('preview-img')
+	  var preview = document.querySelector('#preview')
+	  preview.innerHTML = '';
+	  preview.appendChild(img);
+	});
+
+	uppy.on('upload', function() {
+		document.querySelector('#result').innerHTML = '';
+		document.querySelector('.loading').style.display = 'block';
+	}) 
+
+	uppy.on('upload-success', function (file, response) {
+        res = response.body;
+        document.querySelector('#result').innerHTML = res.prediction;
+		document.querySelector('.loading').style.display = 'none';
+    });
+	</script>
+</body>
+</html>
